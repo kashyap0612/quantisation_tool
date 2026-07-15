@@ -12,8 +12,7 @@ def search_models(query: str, limit: int = 20):
     models = list_models(
         search=query,
         limit=limit,
-        sort="downloads",
-        direction=-1
+        sort="downloads"
     )
 
     results = []

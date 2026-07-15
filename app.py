@@ -2,6 +2,7 @@ import os
 import gradio as gr
 from scripts.utils.hf_search import search_models
 from scripts.pipeline import quantize_model
+import spaces
 
 # ── Custom Dark CSS (Matching Portfolio Vibe) ──
 custom_css = """
@@ -50,6 +51,7 @@ def do_search(query):
     options = [m["id"] for m in results]
     return gr.update(choices=options, value=options[0] if options else None)
 
+@spaces.GPU(duration=120)
 def run_quantization(model_id, quantization, progress=gr.Progress()):
     if not model_id:
         return "Please select a model first.", None, None, None, None

@@ -6,28 +6,39 @@ colorTo: indigo
 sdk: gradio
 ---
 
-# 🔧 HF Vision Model Quantizer
+# ⚡ HF Vision Model Quantizer
 
-A tool to **search, download, and quantize** Hugging Face vision models (CNNs) to TFLite format with automatic accuracy verification.
+A cloud-native tool to **search, download, and quantize** Hugging Face vision models (CNNs) to TFLite format for bare-metal edge deployment.
+
+👉 **[Try the Live Cloud Demo on Hugging Face Spaces!](https://huggingface.co/spaces/freeAAk48/HF_Model_Quantizer)**
 
 > **Pipeline**: PyTorch → ONNX → TF SavedModel → Quantized TFLite
 
-![Demo — ResNet-50 FP16 Quantization with Cosine Similarity 1.0](screenshots/demo.png)
+---
+
+## 🛠️ Architecture & OS (COA) Discussion: Why Quantize for ARM?
+
+This project bridges the gap between high-level Machine Learning (PyTorch) and low-level Computer Organization and Architecture (COA) for edge devices (specifically ARM-based OS environments like Android or Raspberry Pi). 
+
+Running standard PyTorch FP32 models on ARM architectures is highly inefficient for several reasons:
+
+1. **Cache Locality & Memory Bandwidth**: ARM processors have strictly constrained L1/L2 caches. A standard FP32 ResNet model might be 100MB+, causing constant cache misses and forcing the OS to fetch weights from main RAM, bottlenecking the memory bus and draining the battery. By compressing the model to **Dynamic INT8 (75% smaller)**, the entire computational graph can often fit directly into the CPU cache, drastically increasing memory bandwidth efficiency.
+2. **ALU and SIMD Pipelines**: ARM chips feature specialized SIMD (Single Instruction, Multiple Data) execution units like **NEON**. NEON ALUs can process multiple INT8 operations in a single clock cycle, whereas FP32 math requires significantly more power and cycle overhead.
+3. **Bare-metal OS Execution**: Embedded Operating Systems do not have the overhead to run massive Python interpreters and PyTorch binaries. Converting the final model to **TensorFlow Lite (`.tflite`)** allows the model to be executed directly via C++ bindings by the OS, stripping away virtualization overhead and allowing direct hardware acceleration (like the Android NNAPI or ARM Mali GPUs).
 
 ---
 
 ## ✨ Features
 
-- 🔍 **Search** any model on Hugging Face Hub
-- 🛡️ **Architecture validation** — rejects unsupported models before wasting time
-- ⚙️ **FP16 & Dynamic INT8** quantization
-- 📊 **Cosine Similarity** benchmark — compares PyTorch vs TFLite output
-- 🔄 **Auto-fallback** — retries with SELECT_TF_OPS if standard conversion fails
-- 📥 **One-click download** of the `.tflite` file
+- 🔍 **Search** any model directly from the Hugging Face Hub.
+- ☁️ **Cloud Native** — Fully automated CI/CD from GitHub to Hugging Face ZeroGPU Spaces.
+- ⚙️ **FP16 & Dynamic INT8** hardware-aware quantization.
+- 📊 **Cosine Similarity** benchmark — mathematically guarantees the quantized TFLite model matches the PyTorch original.
+- 📥 **One-click download** of edge-ready binaries.
 
 ---
 
-## 🏗️ Pipeline (8 Steps)
+## 🏗️ The 8-Step Pipeline
 
 ```
 [1] Inspect model metadata from Hugging Face
@@ -42,33 +53,7 @@ A tool to **search, download, and quantize** Hugging Face vision models (CNNs) t
 
 ---
 
-## 🧠 Supported Architectures
-
-| Architecture | Variants | Status |
-|---|---|---|
-| MobileNet | v1, v2 | ✅ Verified |
-| ResNet | 18, 34, 50, 101, 152 | ✅ Verified |
-| EfficientNet | B0–B7 | ✅ Supported |
-| ConvNeXt | Tiny, Small, Base, Large | ✅ Supported |
-| DenseNet | 121, 161, 169, 201 | ✅ Supported |
-| VGG | 11, 16, 19 | ✅ Supported |
-| RegNet | Y, X variants | ✅ Supported |
-| SqueezeNet | 1.0, 1.1 | ✅ Supported |
-| ShuffleNet | v2 | ✅ Supported |
-| Others | MnasNet, GoogLeNet, Inception, AlexNet | ✅ Supported |
-
----
-
-## 📦 Quantization Types
-
-| Type | Size Reduction | Accuracy Loss | Calibration Needed |
-|---|---|---|---|
-| **FP16** | ~50% (2×) | ~0% | No |
-| **Dynamic INT8** | ~75% (4×) | ~1-3% | No |
-
----
-
-## 🚀 Getting Started
+## 🚀 Running Locally
 
 ### Prerequisites
 
@@ -78,16 +63,10 @@ venv\Scripts\activate        # Windows
 pip install -r requirements.txt
 ```
 
-### Run the Streamlit UI
+### Run the UI (Gradio)
 
 ```bash
-streamlit run app.py
-```
-
-### Run via CLI
-
-```bash
-python -m scripts.pipeline
+python app.py
 ```
 
 ---
@@ -95,7 +74,8 @@ python -m scripts.pipeline
 ## 📂 Project Structure
 
 ```
-├── app.py                          # Streamlit UI
+├── app.py                          # Gradio UI & Hugging Face Entrypoint
+├── requirements.txt                # Cloud-optimized dependencies
 ├── scripts/
 │   ├── pipeline.py                 # 8-step orchestrator
 │   ├── utils/
@@ -108,20 +88,7 @@ python -m scripts.pipeline
 │       ├── verify_onnx.py          # ONNX validation
 │       ├── onnx_to_savedmodel.py   # ONNX → TF SavedModel
 │       └── savedmodel_to_tflite.py # SavedModel → TFLite
-└── models/                         # Conversion artifacts
 ```
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|---|---|
-| UI | Streamlit |
-| Model Hub | Hugging Face Hub, Transformers |
-| PyTorch | torch, torchvision |
-| ONNX | onnx, onnxruntime, onnx2tf |
-| TensorFlow | tensorflow, ai-edge-litert |
 
 ---
 

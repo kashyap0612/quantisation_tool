@@ -1,3 +1,12 @@
+---
+title: HF Vision Model Quantizer
+emoji: ⚡
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+---
+
 # 🔧 HF Vision Model Quantizer
 
 A tool to **search, download, and quantize** Hugging Face vision models (CNNs) to TFLite format with automatic accuracy verification.

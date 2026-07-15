@@ -6,3 +6,4 @@ numpy
 onnx
 tensorflow
 onnx2tf
+onnxscript

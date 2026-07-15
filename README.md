@@ -3,8 +3,8 @@ title: HF Vision Model Quantizer
 emoji: ⚡
 colorFrom: blue
 colorTo: indigo
-sdk: docker
-app_port: 7860
+sdk: streamlit
+python_version: 3.11
 ---
 
 # 🔧 HF Vision Model Quantizer

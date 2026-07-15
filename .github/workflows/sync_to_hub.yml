@@ -10,7 +10,7 @@ jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
@@ -19,4 +19,4 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git push https://freeAAk48:$HF_TOKEN@huggingface.co/spaces/freeAAk48/HF_Model_Quantizer main -f
+          git push https://freeAAk48:$HF_TOKEN@huggingface.co/spaces/freeAAk48/HF_Model_Quantizer HEAD:main -f

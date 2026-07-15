@@ -12,3 +12,15 @@ onnx-graphsurgeon
 onnx-graphsurgeon
 psutil
 ai-edge-litert
+sng4onnx
+sne4onnx
+snc4onnx
+snd4onnx
+sam4onnx
+scs4onnx
+scc4onnx
+soc4onnx
+sbi4onnx
+onnxsim
+onnxoptimizer
+simple_onnx_processing_tools

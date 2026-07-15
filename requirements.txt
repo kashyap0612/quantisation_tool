@@ -9,3 +9,4 @@ onnx2tf
 onnxscript
 tf_keras
 onnx-graphsurgeon
+psutil

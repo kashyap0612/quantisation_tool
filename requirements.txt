@@ -9,4 +9,6 @@ onnx2tf
 onnxscript
 tf_keras
 onnx-graphsurgeon
+onnx-graphsurgeon
 psutil
+ai-edge-litert

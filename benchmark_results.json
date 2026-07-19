@@ -1,0 +1,23 @@
+{
+  "FP32 (baseline)": {
+    "size_mb": 13.34,
+    "latency_median_ms": 70.4,
+    "latency_p95_ms": 76.07,
+    "cosine_sim_vs_fp32": 1.0,
+    "size_reduction_vs_fp32": 1.0
+  },
+  "FP16": {
+    "size_mb": 6.7,
+    "latency_median_ms": 56.68,
+    "latency_p95_ms": 60.89,
+    "cosine_sim_vs_fp32": 0.00318,
+    "size_reduction_vs_fp32": 1.99
+  },
+  "INT8": {
+    "size_mb": 3.61,
+    "latency_median_ms": 1935.95,
+    "latency_p95_ms": 2332.95,
+    "cosine_sim_vs_fp32": 0.000431,
+    "size_reduction_vs_fp32": 3.7
+  }
+}
